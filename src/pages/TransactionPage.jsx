@@ -1,16 +1,19 @@
-import styled from "styled-components"
+import { useParams } from "react-router-dom";
+import styled from "styled-components";
 
 export default function TransactionsPage() {
+  const { tipo } = useParams();
+  console.log(tipo);
   return (
     <TransactionsContainer>
-      <h1>Nova TRANSAÇÃO</h1>
+      <h1>Nova {tipo}</h1>
       <form>
-        <input placeholder="Valor" type="text"/>
+        <input placeholder="Valor" type="text" />
         <input placeholder="Descrição" type="text" />
-        <button>Salvar TRANSAÇÃO</button>
+        <button>Salvar {tipo}</button>
       </form>
     </TransactionsContainer>
-  )
+  );
 }
 
 const TransactionsContainer = styled.main`
@@ -24,4 +27,4 @@ const TransactionsContainer = styled.main`
     align-self: flex-start;
     margin-bottom: 40px;
   }
-`
+`;
