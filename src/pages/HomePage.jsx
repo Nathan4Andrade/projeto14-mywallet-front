@@ -22,7 +22,7 @@ export default function HomePage() {
       .get(`http://localhost:5000/transactions`)
       .then((resp) => {
         console.log(resp.data);
-        setTransactions(resp.data);
+        setTransactions(resp.data.reverse());
 
         const deposits = resp.data.filter(
           (transaction) => transaction.deposit === true
@@ -126,8 +126,10 @@ const TransactionsContainer = styled.article`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
   article {
     display: flex;
+
     justify-content: space-between;
     strong {
       font-weight: 700;

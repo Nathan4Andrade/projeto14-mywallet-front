@@ -6,7 +6,7 @@ import axios from "axios";
 export default function TransactionsPage() {
   const { type } = useParams();
 
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState("");
   const [description, setDescription] = useState("");
   const navigate = useNavigate();
 
