@@ -2,8 +2,54 @@ import styled from "styled-components";
 import { BiExit } from "react-icons/bi";
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
 import { Link } from "react-router-dom";
-
+/* import dotenv from "dotenv"; */
+import { useEffect, useState } from "react";
+import axios from "axios";
+/* 
+dotenv.config();
+ */
 export default function HomePage() {
+  const [transactions, setTransactions] = useState([]);
+  const [balance, setBalance] = useState(0);
+
+  useEffect(() => {
+    /* const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    }; */
+    axios
+      .get(`http://localhost:5000/transactions`)
+      .then((resp) => {
+        console.log(resp.data);
+        setTransactions(resp.data);
+
+        const deposits = resp.data.filter(
+          (transaction) => transaction.deposit === true
+        );
+        const drafts = resp.data.filter(
+          (transaction) => transaction.deposit === false
+        );
+
+        const totalDeposits = deposits.reduce(
+          (total, deposit) => total + deposit.value,
+          0
+        );
+        const totalDrafts = drafts.reduce(
+          (total, draft) => total + draft.value,
+          0
+        );
+
+        console.log("Total de depósitos:", totalDeposits);
+        console.log("Total de saques:", totalDrafts);
+
+        setBalance(totalDeposits - totalDrafts);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <HomeContainer>
       <Header>
@@ -13,26 +59,24 @@ export default function HomePage() {
 
       <TransactionsContainer>
         <ul>
-          <ListItemContainer>
-            <div>
-              <span>30/11</span>
-              <strong>Almoço mãe</strong>
-            </div>
-            <Value color={"negativo"}>120,00</Value>
-          </ListItemContainer>
-
-          <ListItemContainer>
-            <div>
-              <span>15/11</span>
-              <strong>Salário</strong>
-            </div>
-            <Value color={"positivo"}>3000,00</Value>
-          </ListItemContainer>
+          {transactions.map((transaction) => (
+            <ListItemContainer key={transaction.id}>
+              <div>
+                <span>{transaction.date}</span>
+                <strong>{transaction.description}</strong>
+              </div>
+              <Value color={transaction.deposit ? "positivo" : "negativo"}>
+                {transaction.value.toFixed(2).replace(".", ",")}
+              </Value>
+            </ListItemContainer>
+          ))}
         </ul>
 
         <article>
           <strong>Saldo</strong>
-          <Value color={"positivo"}>2880,00</Value>
+          <Value color={balance > 0 ? "positivo" : "negativo"}>
+            {balance.toFixed(2).replace(".", ",")}
+          </Value>
         </article>
       </TransactionsContainer>
 

@@ -1,16 +1,47 @@
-import { useParams } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import axios from "axios";
 
 export default function TransactionsPage() {
-  const { tipo } = useParams();
-  console.log(tipo);
+  const { type } = useParams();
+
+  const [value, setValue] = useState(0);
+  const [description, setDescription] = useState("");
+  const navigate = useNavigate();
+
+  function newTransaction(e) {
+    e.preventDefault();
+    const body = {
+      value: Number(value),
+      description,
+      deposit: type === "entrada",
+    };
+    axios
+      .post(`http://localhost:5000/nova-transacao/${type}`, body)
+      .then((resp) => {
+        console.log(resp);
+        navigate("/home");
+      })
+      .catch((err) => console.log(err));
+  }
   return (
     <TransactionsContainer>
-      <h1>Nova {tipo}</h1>
-      <form>
-        <input placeholder="Valor" type="text" />
-        <input placeholder="Descrição" type="text" />
-        <button>Salvar {tipo}</button>
+      <h1>Nova {type}</h1>
+      <form onSubmit={newTransaction}>
+        <input
+          placeholder="Valor"
+          type="number"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+        <input
+          placeholder="Descrição"
+          type="text"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+        <button>Salvar {type}</button>
       </form>
     </TransactionsContainer>
   );
