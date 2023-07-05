@@ -137,8 +137,13 @@ const TransactionsContainer = styled.article`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow: hidden;
+  ul {
+    overflow: scroll;
+  }
 
   article {
+    padding-top: 10px;
     display: flex;
 
     justify-content: space-between;
