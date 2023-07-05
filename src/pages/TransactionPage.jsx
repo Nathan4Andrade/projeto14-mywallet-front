@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
@@ -10,10 +10,17 @@ export default function TransactionsPage() {
   const navigate = useNavigate();
   const [token, setToken] = useContext(AuthContext);
   const URL = import.meta.env.VITE_API_URL;
+
   let config;
 
   const { tipo } = useParams();
   console.log(tipo);
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/");
+    }
+  }, []);
 
   function newTransaction(e) {
     e.preventDefault();
@@ -51,24 +58,26 @@ export default function TransactionsPage() {
       });
   }
   return (
-    <TransactionsContainer>
-      <h1>Nova {tipo}</h1>
-      <form onSubmit={newTransaction}>
-        <input
-          placeholder="Valor"
-          type="number"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-        />
-        <input
-          placeholder="Descrição"
-          type="text"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <button>Salvar {tipo}</button>
-      </form>
-    </TransactionsContainer>
+    token && (
+      <TransactionsContainer>
+        <h1>Nova {tipo}</h1>
+        <form onSubmit={newTransaction}>
+          <input
+            placeholder="Valor"
+            type="number"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+          />
+          <input
+            placeholder="Descrição"
+            type="text"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <button>Salvar {tipo}</button>
+        </form>
+      </TransactionsContainer>
+    )
   );
 }
 

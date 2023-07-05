@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { BiExit } from "react-icons/bi";
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
@@ -12,6 +12,7 @@ export default function HomePage() {
   const URL = import.meta.env.VITE_API_URL;
   const [token, setToken] = useContext(AuthContext);
   const [name, setName] = useState("");
+  const navigate = useNavigate();
   let config;
 
   useEffect(() => {
@@ -24,6 +25,8 @@ export default function HomePage() {
             Authorization: `Bearer ${localUserToken}`,
           },
         };
+      } else {
+        navigate("/");
       }
     } else {
       config = {
@@ -32,6 +35,7 @@ export default function HomePage() {
         },
       };
     }
+    //if (token) {
     axios
       .get(`${URL}/logged-user`, config)
       .then((resp) => {
@@ -72,58 +76,67 @@ export default function HomePage() {
       .catch((err) => {
         console.log(err);
       });
+    //}
   }, []);
 
+  function signout() {
+    console.log("deslogando");
+    localStorage.clear();
+    navigate("/");
+  }
+
   return (
-    <HomeContainer>
-      <Header>
-        <h1>Olá, {name}</h1>
-        <BiExit />
-      </Header>
+    token && (
+      <HomeContainer>
+        <Header>
+          <h1>Olá, {name}</h1>
+          <BiExit onClick={signout} />
+        </Header>
 
-      <TransactionsContainer>
-        <ul>
-          {transactions.map((transaction) => (
-            <ListItemContainer key={transaction._id}>
-              <div>
-                <span>{transaction.date}</span>
-                <strong>{transaction.description}</strong>
-              </div>
-              <Value color={transaction.deposit ? "positivo" : "negativo"}>
-                {transaction.value.toFixed(2).replace(".", ",")}
-              </Value>
-            </ListItemContainer>
-          ))}
-        </ul>
+        <TransactionsContainer>
+          <ul>
+            {transactions.map((transaction) => (
+              <ListItemContainer key={transaction._id}>
+                <div>
+                  <span>{transaction.date}</span>
+                  <strong>{transaction.description}</strong>
+                </div>
+                <Value color={transaction.deposit ? "positivo" : "negativo"}>
+                  {transaction.value.toFixed(2).replace(".", ",")}
+                </Value>
+              </ListItemContainer>
+            ))}
+          </ul>
 
-        <article>
-          <strong>Saldo</strong>
-          <Value color={balance > 0 ? "positivo" : "negativo"}>
-            {balance.toFixed(2).replace(".", ",")}
-          </Value>
-        </article>
-      </TransactionsContainer>
+          <article>
+            <strong>Saldo</strong>
+            <Value color={balance > 0 ? "positivo" : "negativo"}>
+              {balance.toFixed(2).replace(".", ",")}
+            </Value>
+          </article>
+        </TransactionsContainer>
 
-      <ButtonsContainer>
-        <button>
-          <Link to={`/nova-transacao/entrada`}>
-            <AiOutlinePlusCircle />
-            <p>
-              Nova <br /> entrada
-            </p>
-          </Link>
-        </button>
-        <button>
-          <Link to={`/nova-transacao/saida`}>
-            <AiOutlineMinusCircle />
-            <p>
-              Nova <br />
-              saída
-            </p>
-          </Link>
-        </button>
-      </ButtonsContainer>
-    </HomeContainer>
+        <ButtonsContainer>
+          <button>
+            <Link to={`/nova-transacao/entrada`}>
+              <AiOutlinePlusCircle />
+              <p>
+                Nova <br /> entrada
+              </p>
+            </Link>
+          </button>
+          <button>
+            <Link to={`/nova-transacao/saida`}>
+              <AiOutlineMinusCircle />
+              <p>
+                Nova <br />
+                saída
+              </p>
+            </Link>
+          </button>
+        </ButtonsContainer>
+      </HomeContainer>
+    )
   );
 }
 
