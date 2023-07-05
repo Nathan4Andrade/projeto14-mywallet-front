@@ -17,6 +17,7 @@ export default function SignUpPage() {
     e.preventDefault();
     setLoading(!loading);
     const loginInfo = {
+      name,
       email,
       password,
     };

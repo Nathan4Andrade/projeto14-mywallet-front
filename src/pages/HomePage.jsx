@@ -2,15 +2,13 @@ import styled from "styled-components";
 import { BiExit } from "react-icons/bi";
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
 import { Link } from "react-router-dom";
-/* import dotenv from "dotenv"; */
 import { useEffect, useState } from "react";
 import axios from "axios";
-/* 
-dotenv.config();
- */
+
 export default function HomePage() {
   const [transactions, setTransactions] = useState([]);
   const [balance, setBalance] = useState(0);
+  const URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     /* const config = {
@@ -19,7 +17,7 @@ export default function HomePage() {
       },
     }; */
     axios
-      .get(`http://localhost:5000/transactions`)
+      .get(`${URL}/transactions`)
       .then((resp) => {
         console.log(resp.data);
         setTransactions(resp.data.reverse());
@@ -60,7 +58,7 @@ export default function HomePage() {
       <TransactionsContainer>
         <ul>
           {transactions.map((transaction) => (
-            <ListItemContainer key={transaction.id}>
+            <ListItemContainer key={transaction._id}>
               <div>
                 <span>{transaction.date}</span>
                 <strong>{transaction.description}</strong>

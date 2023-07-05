@@ -4,21 +4,23 @@ import styled from "styled-components";
 import axios from "axios";
 
 export default function TransactionsPage() {
-  const { type } = useParams();
-
   const [value, setValue] = useState("");
   const [description, setDescription] = useState("");
   const navigate = useNavigate();
+  const URL = import.meta.env.VITE_API_URL;
+
+  const { tipo } = useParams();
+  console.log(tipo);
 
   function newTransaction(e) {
     e.preventDefault();
     const body = {
       value: Number(value),
       description,
-      deposit: type === "entrada",
+      deposit: tipo === "entrada",
     };
     axios
-      .post(`http://localhost:5000/nova-transacao/${type}`, body)
+      .post(`${URL}/nova-transacao/${tipo}`, body)
       .then((resp) => {
         console.log(resp);
         navigate("/home");
@@ -27,7 +29,7 @@ export default function TransactionsPage() {
   }
   return (
     <TransactionsContainer>
-      <h1>Nova {type}</h1>
+      <h1>Nova {tipo}</h1>
       <form onSubmit={newTransaction}>
         <input
           placeholder="Valor"
@@ -41,7 +43,7 @@ export default function TransactionsPage() {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
-        <button>Salvar {type}</button>
+        <button>Salvar {tipo}</button>
       </form>
     </TransactionsContainer>
   );
