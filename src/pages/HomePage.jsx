@@ -2,22 +2,24 @@ import styled from "styled-components";
 import { BiExit } from "react-icons/bi";
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import AuthContext from "../context/AuthContext";
 
 export default function HomePage() {
   const [transactions, setTransactions] = useState([]);
   const [balance, setBalance] = useState(0);
   const URL = import.meta.env.VITE_API_URL;
+  const [token, setToken] = useContext(AuthContext);
 
   useEffect(() => {
-    /* const config = {
+    const config = {
       headers: {
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${token}`,
       },
-    }; */
+    };
     axios
-      .get(`${URL}/transactions`)
+      .get(`${URL}/transactions`, config)
       .then((resp) => {
         console.log(resp.data);
         setTransactions(resp.data.reverse());

@@ -2,35 +2,37 @@ import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 import MyWalletLogo from "../components/MyWalletLogo";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
+import AuthContext from "../context/AuthContext";
 
 export default function SignInPage() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const [token, setToken] = useContext(AuthContext);
+
   const navigate = useNavigate();
+  const URL = import.meta.env.VITE_API_URL;
 
   function signin(e) {
     e.preventDefault();
     setLoading(!loading);
-    const loginInfo = {
+    const signInInfo = {
       email,
       password,
     };
-    navigate("/home");
-    /*  axios
-      .post(`${BASE_URL}auth/login`, loginInfo)
+    axios
+      .post(`${URL}/sign-in`, signInInfo)
       .then((resp) => {
-        setToken(resp.data.token);
-        setUser(resp.data);
-        persistUser(resp.data);
+        console.log(resp.data);
+        setToken(resp.data);
         navigate("/home");
       })
       .catch(() => {
         alert("Usuário não encontrado");
         setLoading(false);
-      }); */
+      });
   }
   return (
     <SingInContainer>

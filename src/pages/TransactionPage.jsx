@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
+import AuthContext from "../context/AuthContext";
 
 export default function TransactionsPage() {
   const [value, setValue] = useState("");
   const [description, setDescription] = useState("");
   const navigate = useNavigate();
+  const [token, setToken] = useContext(AuthContext);
   const URL = import.meta.env.VITE_API_URL;
 
   const { tipo } = useParams();
@@ -14,13 +16,18 @@ export default function TransactionsPage() {
 
   function newTransaction(e) {
     e.preventDefault();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     const body = {
       value: Number(value),
       description,
       deposit: tipo === "entrada",
     };
     axios
-      .post(`${URL}/nova-transacao/${tipo}`, body)
+      .post(`${URL}/nova-transacao/${tipo}`, body, config)
       .then((resp) => {
         console.log(resp);
         navigate("/home");

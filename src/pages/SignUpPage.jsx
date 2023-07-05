@@ -3,6 +3,7 @@ import styled from "styled-components";
 import MyWalletLogo from "../components/MyWalletLogo";
 import { useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
+import axios from "axios";
 
 export default function SignUpPage() {
   const [name, setName] = useState("");
@@ -12,28 +13,27 @@ export default function SignUpPage() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const URL = import.meta.env.VITE_API_URL;
 
   function signup(e) {
     e.preventDefault();
     setLoading(!loading);
-    const loginInfo = {
+    const signUpInfo = {
       name,
       email,
       password,
     };
     navigate("/");
-    /*  axios
-      .post(`${BASE_URL}auth/login`, loginInfo)
+    axios
+      .post(`${URL}/sign-up`, signUpInfo)
       .then((resp) => {
-        setToken(resp.data.token);
-        setUser(resp.data);
-        persistUser(resp.data);
-        navigate("/home");
+        console.log(resp.data);
+        navigate("/");
       })
       .catch(() => {
         alert("Usuário não encontrado");
         setLoading(false);
-      }); */
+      });
   }
   return (
     <SingUpContainer>
