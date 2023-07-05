@@ -12,13 +12,26 @@ export default function HomePage() {
   const URL = import.meta.env.VITE_API_URL;
   const [token, setToken] = useContext(AuthContext);
   const [name, setName] = useState("");
+  let config;
 
   useEffect(() => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
+    if (!token) {
+      const localUserToken = JSON.parse(localStorage.getItem("token"));
+      if (localUserToken) {
+        setToken(localUserToken);
+        config = {
+          headers: {
+            Authorization: `Bearer ${localUserToken}`,
+          },
+        };
+      }
+    } else {
+      config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+    }
     axios
       .get(`${URL}/logged-user`, config)
       .then((resp) => {

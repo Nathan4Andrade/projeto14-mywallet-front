@@ -10,17 +10,30 @@ export default function TransactionsPage() {
   const navigate = useNavigate();
   const [token, setToken] = useContext(AuthContext);
   const URL = import.meta.env.VITE_API_URL;
+  let config;
 
   const { tipo } = useParams();
   console.log(tipo);
 
   function newTransaction(e) {
     e.preventDefault();
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
+    if (!token) {
+      const localUserToken = JSON.parse(localStorage.getItem("token"));
+      if (localUserToken) {
+        setToken(localUserToken);
+        config = {
+          headers: {
+            Authorization: `Bearer ${localUserToken}`,
+          },
+        };
+      }
+    } else {
+      config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+    }
     const body = {
       value: Number(value),
       description,
