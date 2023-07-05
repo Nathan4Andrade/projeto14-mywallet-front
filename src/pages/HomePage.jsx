@@ -11,6 +11,7 @@ export default function HomePage() {
   const [balance, setBalance] = useState(0);
   const URL = import.meta.env.VITE_API_URL;
   const [token, setToken] = useContext(AuthContext);
+  const [name, setName] = useState("");
 
   useEffect(() => {
     const config = {
@@ -18,6 +19,16 @@ export default function HomePage() {
         Authorization: `Bearer ${token}`,
       },
     };
+    axios
+      .get(`${URL}/logged-user`, config)
+      .then((resp) => {
+        console.log(resp.data);
+        setName(resp.data.name);
+      })
+      .catch((err) => {
+        console.log(err);
+        alert(err.response.data);
+      });
     axios
       .get(`${URL}/transactions`, config)
       .then((resp) => {
@@ -53,7 +64,7 @@ export default function HomePage() {
   return (
     <HomeContainer>
       <Header>
-        <h1>Olá, Fulano</h1>
+        <h1>Olá, {name}</h1>
         <BiExit />
       </Header>
 

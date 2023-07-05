@@ -32,7 +32,10 @@ export default function TransactionsPage() {
         console.log(resp);
         navigate("/home");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        alert(err.response.data);
+      });
   }
   return (
     <TransactionsContainer>

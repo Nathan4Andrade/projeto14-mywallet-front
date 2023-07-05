@@ -23,15 +23,15 @@ export default function SignUpPage() {
       email,
       password,
     };
-    navigate("/");
     axios
       .post(`${URL}/sign-up`, signUpInfo)
       .then((resp) => {
         console.log(resp.data);
         navigate("/");
       })
-      .catch(() => {
-        alert("Usuário não encontrado");
+      .catch((err) => {
+        console.log(err);
+        alert(err.response.data);
         setLoading(false);
       });
   }
@@ -62,7 +62,10 @@ export default function SignUpPage() {
           value={password}
           onChange={(e) => {
             setPassword(e.target.value);
-            if (e.target.value !== confirmPassword) {
+            if (
+              e.target.value !== confirmPassword ||
+              e.target.value.length < 3
+            ) {
               console.log("senhas diferentes");
               setDisable(true);
             }
@@ -87,7 +90,11 @@ export default function SignUpPage() {
           disabled={loading}
           required
         />
-        {disable ? <p>Senhas incompatíveis</p> : ""}
+        {disable ? (
+          <p>Suas senhas incompatíveis ou possuem menos de 3 caracteres</p>
+        ) : (
+          ""
+        )}
         <button disabled={loading || disable}>
           {loading ? (
             <ThreeDots
@@ -120,6 +127,7 @@ const SingUpContainer = styled.section`
   form {
     > p {
       color: #ff7676;
+      text-align: center;
     }
   }
   button {

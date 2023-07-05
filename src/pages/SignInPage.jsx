@@ -25,12 +25,13 @@ export default function SignInPage() {
     axios
       .post(`${URL}/sign-in`, signInInfo)
       .then((resp) => {
-        console.log(resp.data);
+        console.log(resp);
         setToken(resp.data);
         navigate("/home");
       })
-      .catch(() => {
-        alert("Usuário não encontrado");
+      .catch((err) => {
+        console.log(err);
+        alert(err.response.data);
         setLoading(false);
       });
   }
