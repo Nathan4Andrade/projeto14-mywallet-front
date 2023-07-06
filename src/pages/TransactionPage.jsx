@@ -20,7 +20,7 @@ export default function TransactionsPage() {
     if (!token) {
       navigate("/");
     }
-  }, []);
+  }, [token]);
 
   function newTransaction(e) {
     e.preventDefault();

@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 import MyWalletLogo from "../components/MyWalletLogo";
 import logo from "../assets/logo.png";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
 
@@ -15,6 +15,13 @@ export default function SignInPage() {
 
   const navigate = useNavigate();
   const URL = import.meta.env.VITE_API_URL;
+  
+  useEffect(() => {
+    const localToken = JSON.parse(localStorage.getItem("token"));
+    if (localToken) {
+      navigate("/home");
+    }
+  }, []);
 
   function signin(e) {
     e.preventDefault();

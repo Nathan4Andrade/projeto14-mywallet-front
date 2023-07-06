@@ -77,7 +77,7 @@ export default function HomePage() {
         console.log(err);
       });
     //}
-  }, []);
+  }, [token]);
 
   function signout() {
     console.log("deslogando");
