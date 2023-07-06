@@ -67,14 +67,16 @@ export default function TransactionsPage() {
             type="number"
             value={value}
             onChange={(e) => setValue(e.target.value)}
+            data-test="registry-amount-input"
           />
           <input
             placeholder="Descrição"
             type="text"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            data-test="registry-name-input"
           />
-          <button>Salvar {tipo}</button>
+          <button data-test="registry-save">Salvar {tipo}</button>
         </form>
       </TransactionsContainer>
     )

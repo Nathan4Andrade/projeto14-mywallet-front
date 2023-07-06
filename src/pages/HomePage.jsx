@@ -95,8 +95,8 @@ export default function HomePage() {
     token && (
       <HomeContainer>
         <Header>
-          <h1>Olá, {name}</h1>
-          <BiExit onClick={signout} />
+          <h1 data-test="user-name">Olá, {name}</h1>
+          <BiExit onClick={signout} data-test="logout" />
         </Header>
 
         <TransactionsContainer>
@@ -105,9 +105,13 @@ export default function HomePage() {
               <ListItemContainer key={transaction._id}>
                 <div>
                   <span>{transaction.date}</span>
-                  <strong>{transaction.description}</strong>
+                  <strong data-test="registry-name">
+                    {transaction.description}
+                  </strong>
                 </div>
-                <Value color={transaction.deposit ? "positivo" : "negativo"}>
+                <Value
+                  data-test="registry-amount"
+                  color={transaction.deposit ? "positivo" : "negativo"}>
                   {transaction.value.toFixed(2).replace(".", ",")}
                 </Value>
               </ListItemContainer>
@@ -116,20 +120,22 @@ export default function HomePage() {
 
           <article>
             <strong>Saldo</strong>
-            <Value color={balance > 0 ? "positivo" : "negativo"}>
+            <Value
+              data-test="total-amount"
+              color={balance > 0 ? "positivo" : "negativo"}>
               {balance.toFixed(2).replace(".", ",")}
             </Value>
           </article>
         </TransactionsContainer>
 
         <ButtonsContainer>
-          <button onClick={entrada}>
+          <button onClick={entrada} data-test="new-income">
             <AiOutlinePlusCircle />
             <p>
               Nova <br /> entrada
             </p>
           </button>
-          <button onClick={saida}>
+          <button onClick={saida} data-test="new-expense">
             <AiOutlineMinusCircle />
             <p>
               Nova <br />

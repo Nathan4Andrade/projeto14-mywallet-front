@@ -15,7 +15,7 @@ export default function SignInPage() {
 
   const navigate = useNavigate();
   const URL = import.meta.env.VITE_API_URL;
-  
+
   useEffect(() => {
     const localToken = JSON.parse(localStorage.getItem("token"));
     if (localToken) {
@@ -55,6 +55,7 @@ export default function SignInPage() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={loading}
+          data-test="email"
           required
         />
         <input
@@ -64,9 +65,10 @@ export default function SignInPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           disabled={loading}
+          data-test="password"
           required
         />
-        <button disabled={loading}>
+        <button disabled={loading} data-test="sign-in-submit">
           {loading ? (
             <ThreeDots
               height="25"

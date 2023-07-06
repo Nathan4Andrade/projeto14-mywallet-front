@@ -47,6 +47,7 @@ export default function SignUpPage() {
           value={name}
           onChange={(e) => setName(e.target.value)}
           disabled={loading}
+          data-test="name"
           required
         />
         <input
@@ -55,6 +56,7 @@ export default function SignUpPage() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={loading}
+          data-test="email"
           required
         />
         <input
@@ -73,6 +75,7 @@ export default function SignUpPage() {
             }
           }}
           disabled={loading}
+          data-test="password"
           required
         />
         <input
@@ -90,6 +93,7 @@ export default function SignUpPage() {
             }
           }}
           disabled={loading}
+          data-test="conf-password"
           required
         />
         {disable ? (
@@ -97,7 +101,7 @@ export default function SignUpPage() {
         ) : (
           ""
         )}
-        <button disabled={loading || disable}>
+        <button disabled={loading || disable} data-test="sign-up-submit">
           {loading ? (
             <ThreeDots
               height="25"
