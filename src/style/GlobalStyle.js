@@ -1,11 +1,17 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
+    
     * {
         font-family: 'Raleway';
         font-style: normal;
         font-weight: 400;
+     
     }
+    ::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+      }
     button {
         outline: none;
         border: none;
@@ -53,6 +59,6 @@ const GlobalStyle = createGlobalStyle`
         text-decoration: none;
         padding-top: 30px;
     }
-`
+`;
 
-export default GlobalStyle
+export default GlobalStyle;

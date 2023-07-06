@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 import MyWalletLogo from "../components/MyWalletLogo";
+import logo from "../assets/logo.png";
 import { useContext, useState } from "react";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
@@ -38,6 +39,7 @@ export default function SignInPage() {
   }
   return (
     <SingInContainer>
+      <img src={logo} alt="logo" />
       <form onSubmit={signin}>
         <MyWalletLogo />
         <input
@@ -86,6 +88,13 @@ const SingInContainer = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  img {
+    width: 100px;
+    margin-bottom: 20px;
+  }
+  form {
+    max-width: 327px;
+  }
   button {
     div {
       justify-content: center;

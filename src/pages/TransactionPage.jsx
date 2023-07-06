@@ -87,9 +87,19 @@ const TransactionsContainer = styled.main`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  margin: 0 400px;
+  @media screen and (max-width: 1024px) {
+    margin: 0;
+  }
+  form {
+    max-width: 327px;
+  }
 
   h1 {
-    align-self: flex-start;
+    align-self: center;
+    @media screen and (max-width: 600px) {
+      align-self: flex-start;
+    }
     margin-bottom: 40px;
   }
 `;

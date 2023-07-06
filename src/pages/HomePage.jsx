@@ -143,7 +143,14 @@ export default function HomePage() {
 const HomeContainer = styled.div`
   display: flex;
   flex-direction: column;
+  margin: 0 400px;
   height: calc(100vh - 50px);
+  @media screen and (max-width: 1024px) {
+    margin: 0 200px;
+  }
+  @media screen and (max-width: 600px) {
+    margin: 0;
+  }
 `;
 const Header = styled.header`
   display: flex;

@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import MyWalletLogo from "../components/MyWalletLogo";
+import logo from "../assets/logo.png";
 import { useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import axios from "axios";
@@ -37,6 +38,7 @@ export default function SignUpPage() {
   }
   return (
     <SingUpContainer>
+      <img src={logo} alt="logo" />
       <form onSubmit={signup}>
         <MyWalletLogo />
         <input
@@ -124,7 +126,12 @@ const SingUpContainer = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  img {
+    width: 100px;
+    margin-bottom: 20px;
+  }
   form {
+    max-width: 327px;
     > p {
       color: #ff7676;
       text-align: center;
