@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { BiExit } from "react-icons/bi";
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
@@ -84,6 +84,12 @@ export default function HomePage() {
     localStorage.clear();
     navigate("/");
   }
+  function entrada() {
+    navigate(`/nova-transacao/entrada`);
+  }
+  function saida() {
+    navigate(`/nova-transacao/saida`);
+  }
 
   return (
     token && (
@@ -117,22 +123,18 @@ export default function HomePage() {
         </TransactionsContainer>
 
         <ButtonsContainer>
-          <button>
-            <Link to={`/nova-transacao/entrada`}>
-              <AiOutlinePlusCircle />
-              <p>
-                Nova <br /> entrada
-              </p>
-            </Link>
+          <button onClick={entrada}>
+            <AiOutlinePlusCircle />
+            <p>
+              Nova <br /> entrada
+            </p>
           </button>
-          <button>
-            <Link to={`/nova-transacao/saida`}>
-              <AiOutlineMinusCircle />
-              <p>
-                Nova <br />
-                saída
-              </p>
-            </Link>
+          <button onClick={saida}>
+            <AiOutlineMinusCircle />
+            <p>
+              Nova <br />
+              saída
+            </p>
           </button>
         </ButtonsContainer>
       </HomeContainer>
