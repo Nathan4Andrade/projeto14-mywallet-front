@@ -117,23 +117,23 @@ export default function HomePage() {
         </TransactionsContainer>
 
         <ButtonsContainer>
-          <Link to={`/nova-transacao/entrada`}>
-            <button>
+          <button>
+            <Link to={`/nova-transacao/entrada`}>
               <AiOutlinePlusCircle />
               <p>
                 Nova <br /> entrada
               </p>
-            </button>
-          </Link>
-          <Link to={`/nova-transacao/saida`}>
-            <button>
+            </Link>
+          </button>
+          <button>
+            <Link to={`/nova-transacao/saida`}>
               <AiOutlineMinusCircle />
               <p>
                 Nova <br />
                 saída
               </p>
-            </button>
-          </Link>
+            </Link>
+          </button>
         </ButtonsContainer>
       </HomeContainer>
     )
